@@ -1,0 +1,1739 @@
+// swift-interface-format-version: 1.0
+// swift-compiler-version: Apple Swift version 5.3.2 (swiftlang-1200.0.45 clang-1200.0.32.28)
+// swift-module-flags: -target armv7-apple-ios10.0 -enable-objc-interop -enable-library-evolution -swift-version 5 -enforce-exclusivity=checked -O -module-name REIOSSDK
+import AVKit
+import AudioToolbox
+import CommonCrypto
+import CoreData
+import CoreLocation
+import CoreTelephony
+import Dispatch
+import Foundation
+import Network
+@_exported import REIOSSDK
+import Swift
+import SystemConfiguration
+import UIKit
+import UserNotifications
+import WebKit
+import os.log
+import os
+import zlib
+@objc @_inheritsConvenienceInitializers public class RSInboxViewcontroller : UIKit.UIViewController, UIKit.UITableViewDataSource, UIKit.UITableViewDelegate, UIKit.UISearchResultsUpdating, UIKit.UISearchBarDelegate {
+  @objc override dynamic public func viewDidAppear(_ animated: Swift.Bool)
+  @objc override dynamic public func viewWillDisappear(_ animated: Swift.Bool)
+  @objc override dynamic public func viewDidLoad()
+  public func setupSearchView()
+  public func setupSearchBarAndTableview()
+  @objc public func tableView(_ tableView: UIKit.UITableView, numberOfRowsInSection section: Swift.Int) -> Swift.Int
+  @objc public func tableView(_ tableView: UIKit.UITableView, heightForRowAt indexPath: Foundation.IndexPath) -> CoreGraphics.CGFloat
+  @objc public func tableView(_ tableView: UIKit.UITableView, cellForRowAt indexPath: Foundation.IndexPath) -> UIKit.UITableViewCell
+  @objc public func tableView(_ tableView: UIKit.UITableView, didSelectRowAt indexPath: Foundation.IndexPath)
+  @objc public func tableView(_ tableView: UIKit.UITableView, commit editingStyle: UIKit.UITableViewCell.EditingStyle, forRowAt indexPath: Foundation.IndexPath)
+  @objc public func updateSearchResults(for searchController: UIKit.UISearchController)
+  @objc public func searchBar(_ searchBar: UIKit.UISearchBar, selectedScopeButtonIndexDidChange selectedScope: Swift.Int)
+  @objc public func searchBar(_ searchBar: UIKit.UISearchBar, textDidChange searchText: Swift.String)
+  @objc public func searchBarTextDidBeginEditing(_ searchBar: UIKit.UISearchBar)
+  @objc public func searchBarTextDidEndEditing(_ searchBar: UIKit.UISearchBar)
+  @objc public func searchBarCancelButtonClicked(_ searchBar: UIKit.UISearchBar)
+  @objc public func scrollViewWillEndDragging(_ scrollView: UIKit.UIScrollView, withVelocity velocity: CoreGraphics.CGPoint, targetContentOffset: Swift.UnsafeMutablePointer<CoreGraphics.CGPoint>)
+  @objc deinit
+  @objc override dynamic public init(nibName nibNameOrNil: Swift.String?, bundle nibBundleOrNil: Foundation.Bundle?)
+  @objc required dynamic public init?(coder: Foundation.NSCoder)
+}
+extension REiosHandler {
+  @objc dynamic public class func setForegroundNotification(data: UserNotifications.UNNotification, completionHandler: @escaping (UserNotifications.UNNotificationPresentationOptions) -> Swift.Void)
+  @objc dynamic public class func setNotificationAction(response: UserNotifications.UNNotificationResponse)
+  @objc dynamic public class func setForegroundNotification(_ strNotification: Swift.String?, completionHandler: @escaping (UserNotifications.UNNotificationPresentationOptions) -> Swift.Void)
+  @objc dynamic public class func setNotificationAction(strResponse: Swift.String)
+  @objc dynamic public class func setCustomNotification(userInfo: [Swift.String : Any])
+}
+extension REiosHandler {
+  @objc dynamic public class func getNotificationList() -> [Any]
+  @objc dynamic public class func getNotificationList(successHandler: @escaping ([Any]) -> ())
+}
+extension REiosHandler {
+  @objc dynamic public class func deleteNotificationListWith(dict: [Swift.String : Any])
+  @objc dynamic public class func deleteNotificationByCampaignId(campaignId: Swift.String)
+  @objc dynamic public class func deleteNotificationByNotificationId(notificationId: Swift.String)
+  public class func deleteNotificationByNotificationId(notificationId: Swift.String, notificationList: @escaping ([Any]) -> ())
+  public class func deleteNotificationByCampaignId(campaignId: Swift.String, notificationList: @escaping ([Any]) -> ())
+  public class func deleteNotificationListWith(dict: [Swift.String : Any], notificationList: @escaping ([Any]) -> ())
+}
+extension REiosHandler {
+  @objc dynamic public class func getReadNotificationCount(onSuccess success: @escaping (Swift.Int) -> ())
+  @objc dynamic public class func getUnReadNotificationCount(onSuccess success: @escaping (Swift.Int) -> ())
+  @objc dynamic public class func getTotalNotificationCount(onSuccess success: @escaping (Swift.Int) -> ())
+  @objc dynamic public class func readNotification(notificationId: Swift.String, onSuccess success: @escaping (Swift.Int) -> ())
+  @objc dynamic public class func unReadNotification(notificationId: Swift.String, onSuccess success: @escaping (Swift.Int) -> ())
+  @objc dynamic public class func readNotification(campaignId: Swift.String, onSuccess success: @escaping (Swift.Int) -> ())
+  @objc dynamic public class func unReadNotification(campaignId: Swift.String, onSuccess success: @escaping (Swift.Int) -> ())
+  @objc dynamic public class func notificationCTAClicked(notificationId: Swift.String, actionId: Swift.Int, onSuccess success: @escaping (Swift.Int) -> ())
+  @objc dynamic public class func notificationCTAClicked(campaignId: Swift.String, actionId: Swift.Int, onSuccess success: @escaping (Swift.Int) -> ())
+}
+@objc open class SocketManager : ObjectiveC.NSObject, REIOSSDK.SocketManagerSpec, REIOSSDK.SocketParsable, REIOSSDK.SocketDataBufferable, REIOSSDK.ConfigSettable {
+  public var defaultSocket: REIOSSDK.SocketIOClient {
+    get
+  }
+  final public let socketURL: Foundation.URL
+  public var config: REIOSSDK.SocketIOClientConfiguration {
+    get
+    set
+  }
+  public var engine: REIOSSDK.SocketEngineSpec?
+  public var forceNew: Swift.Bool
+  public var handleQueue: Dispatch.DispatchQueue
+  public var nsps: [Swift.String : REIOSSDK.SocketIOClient]
+  public var reconnects: Swift.Bool
+  public var reconnectWait: Swift.Int
+  public var reconnectWaitMax: Swift.Int
+  public var randomizationFactor: Swift.Double
+  public var status: REIOSSDK.SocketIOStatus {
+    get
+  }
+  public var version: REIOSSDK.SocketIOVersion {
+    get
+  }
+  public var waitingPackets: [REIOSSDK.SocketPacket]
+  public init(socketURL: Foundation.URL, config: REIOSSDK.SocketIOClientConfiguration = [])
+  @objc convenience public init(socketURL: Foundation.URL, config: [Swift.String : Any]?)
+  @objc deinit
+  open func connect()
+  open func connectSocket(_ socket: REIOSSDK.SocketIOClient, withPayload payload: [Swift.String : Any]? = nil)
+  open func didDisconnect(reason: Swift.String)
+  open func disconnect()
+  open func disconnectSocket(_ socket: REIOSSDK.SocketIOClient)
+  open func disconnectSocket(forNamespace nsp: Swift.String)
+  open func emitAll(clientEvent event: REIOSSDK.SocketClientEvent, data: [Any])
+  open func emitAll(_ event: Swift.String, _ items: REIOSSDK.SocketData...)
+  @objc open func engineDidClose(reason: Swift.String)
+  @objc open func engineDidError(reason: Swift.String)
+  @objc open func engineDidOpen(reason: Swift.String)
+  @objc open func engineDidReceivePing()
+  @objc open func engineDidSendPing()
+  @objc open func engineDidReceivePong()
+  @objc open func engineDidSendPong()
+  @objc open func engineDidWebsocketUpgrade(headers: [Swift.String : Swift.String])
+  @objc open func parseEngineMessage(_ msg: Swift.String)
+  @objc open func parseEngineBinaryData(_ data: Foundation.Data)
+  open func reconnect()
+  @discardableResult
+  open func removeSocket(_ socket: REIOSSDK.SocketIOClient) -> REIOSSDK.SocketIOClient?
+  open func setConfigs(_ config: REIOSSDK.SocketIOClientConfiguration)
+  open func socket(forNamespace nsp: Swift.String) -> REIOSSDK.SocketIOClient
+  @objc override dynamic public init()
+}
+@objc final public class SocketAckEmitter : ObjectiveC.NSObject {
+  @objc final public var rawEmitView: REIOSSDK.SocketRawAckView {
+    @objc get
+  }
+  final public var expected: Swift.Bool {
+    get
+  }
+  public init(socket: REIOSSDK.SocketIOClient, ackNum: Swift.Int)
+  final public func with(_ items: REIOSSDK.SocketData...)
+  @objc final public func with(_ items: [Any])
+  @objc deinit
+  @objc override dynamic public init()
+}
+@objc @_hasMissingDesignatedInitializers final public class OnAckCallback : ObjectiveC.NSObject {
+  @objc deinit
+  @objc final public func timingOut(after seconds: Swift.Double, callback: @escaping REIOSSDK.AckCallback)
+  @objc override dynamic public init()
+}
+public class FoundationHTTPHandler : REIOSSDK.HTTPHandler {
+  public init()
+  public func convert(request: Foundation.URLRequest) -> Foundation.Data
+  public func parse(data: Foundation.Data) -> Swift.Int
+  public func register(delegate: REIOSSDK.HTTPHandlerDelegate)
+  @objc deinit
+}
+extension REiosHandler {
+  @objc dynamic public class func handleOpenlink(url: Foundation.URL, successHandler: @escaping (Swift.String) -> (Swift.Void), failureHandler: @escaping (Swift.String) -> (Swift.Void))
+  @objc dynamic public class func handleUniversalLink(userActivity: Foundation.NSUserActivity, successHandler: @escaping (Swift.String) -> (Swift.Void), failureHandler: @escaping (Swift.String) -> (Swift.Void))
+  @objc dynamic public class func handleDynamicLink(userActivity: Foundation.NSUserActivity, successHandler: @escaping (Swift.String) -> (Swift.Void), failureHandler: @escaping (Swift.String) -> (Swift.Void))
+  public class func handleOpenlinkWith(url: Foundation.URL, successHandler: @escaping ([Swift.String : Any]) -> (Swift.Void), failureHandler: @escaping (Swift.String) -> (Swift.Void))
+  public class func handleUniversalLinkWith(userActivity: Foundation.NSUserActivity, successHandler: @escaping ([Swift.String : Any]) -> (Swift.Void), failureHandler: @escaping (Swift.String) -> (Swift.Void))
+  public class func handleDynamicLinkWith(userActivity: Foundation.NSUserActivity, successHandler: @escaping ([Swift.String : Any]) -> (Swift.Void), failureHandler: @escaping (Swift.String) -> (Swift.Void))
+}
+extension REiosHandler {
+  @objc dynamic public class func handleQrLinkWith(url: Swift.String, successHandler: @escaping ([Swift.String : Any]) -> (Swift.Void), failureHandler: @escaping (Swift.String) -> (Swift.Void))
+}
+extension REiosHandler {
+  @objc dynamic public class func getDeeplinkingData(success: @escaping REIOSSDK.SHDict, failure: @escaping REIOSSDK.FHStr)
+}
+public protocol SocketLogger : AnyObject {
+  var log: Swift.Bool { get set }
+  func log(_ message: @autoclosure () -> Swift.String, type: Swift.String)
+  func error(_ message: @autoclosure () -> Swift.String, type: Swift.String)
+}
+extension SocketLogger {
+  public func log(_ message: @autoclosure () -> Swift.String, type: Swift.String)
+  public func error(_ message: @autoclosure () -> Swift.String, type: Swift.String)
+}
+extension REiosHandler {
+  @objc dynamic public class func update(location: Swift.String?)
+  @objc dynamic public class func updateLocation(lat strLat: Swift.String, long strLong: Swift.String)
+  public class func updateLocation(lat douLat: Swift.Double, long douLong: Swift.Double)
+}
+extension REiosHandler {
+  @objc dynamic public class func formDataCapture()
+  @objc dynamic public class func formDataCapture(dict: [Swift.String : Any])
+  @objc dynamic public class func formDataCapture(values: Swift.String?)
+}
+public protocol SocketEngineSpec : AnyObject {
+  var client: REIOSSDK.SocketEngineClient? { get set }
+  var closed: Swift.Bool { get }
+  var compress: Swift.Bool { get }
+  var connected: Swift.Bool { get }
+  var connectParams: [Swift.String : Any]? { get set }
+  var cookies: [Foundation.HTTPCookie]? { get }
+  var engineQueue: Dispatch.DispatchQueue { get }
+  var extraHeaders: [Swift.String : Swift.String]? { get set }
+  var fastUpgrade: Swift.Bool { get }
+  var forcePolling: Swift.Bool { get }
+  var forceWebsockets: Swift.Bool { get }
+  var polling: Swift.Bool { get }
+  var probing: Swift.Bool { get }
+  var sid: Swift.String { get }
+  var socketPath: Swift.String { get }
+  var urlPolling: Foundation.URL { get }
+  var urlWebSocket: Foundation.URL { get }
+  var version: REIOSSDK.SocketIOVersion { get }
+  @available(*, deprecated, message: "No longer needed, if we're not polling, then we must be doing websockets")
+  var websocket: Swift.Bool { get }
+  var ws: REIOSSDK.WebSocket? { get }
+  init(client: REIOSSDK.SocketEngineClient, url: Foundation.URL, options: [Swift.String : Any]?)
+  func connect()
+  func didError(reason: Swift.String)
+  func disconnect(reason: Swift.String)
+  func doFastUpgrade()
+  func flushWaitingForPostToWebSocket()
+  func parseEngineData(_ data: Foundation.Data)
+  func parseEngineMessage(_ message: Swift.String)
+  func write(_ msg: Swift.String, withType type: REIOSSDK.SocketEnginePacketType, withData data: [Foundation.Data], completion: (() -> ())?)
+}
+public class StringHTTPHandler : REIOSSDK.HTTPHandler {
+  public init()
+  public func convert(request: Foundation.URLRequest) -> Foundation.Data
+  public func parse(data: Foundation.Data) -> Swift.Int
+  public func register(delegate: REIOSSDK.HTTPHandlerDelegate)
+  @objc deinit
+}
+public enum FoundationTransportError : Swift.Error {
+  case invalidRequest
+  case invalidOutputStream
+  case timeout
+  public static func == (a: REIOSSDK.FoundationTransportError, b: REIOSSDK.FoundationTransportError) -> Swift.Bool
+  public var hashValue: Swift.Int {
+    get
+  }
+  public func hash(into hasher: inout Swift.Hasher)
+}
+@objc public class FoundationTransport : ObjectiveC.NSObject, REIOSSDK.Transport, Foundation.StreamDelegate {
+  public var usingTLS: Swift.Bool {
+    get
+  }
+  public init(streamConfiguration: ((Foundation.InputStream, Foundation.OutputStream) -> Swift.Void)? = nil)
+  @objc deinit
+  public func connect(url: Foundation.URL, timeout: Swift.Double = 10, certificatePinning: REIOSSDK.CertificatePinning? = nil)
+  public func disconnect()
+  public func register(delegate: REIOSSDK.TransportEventClient)
+  public func write(data: Foundation.Data, completion: @escaping ((Swift.Error?) -> ()))
+  @objc open func stream(_ aStream: Foundation.Stream, handle eventCode: Foundation.Stream.Event)
+  @objc override dynamic public init()
+}
+public protocol FrameCollectorDelegate : AnyObject {
+  func didForm(event: REIOSSDK.FrameCollector.Event)
+  func decompress(data: Foundation.Data, isFinal: Swift.Bool) -> Foundation.Data?
+}
+@_hasMissingDesignatedInitializers public class FrameCollector {
+  public enum Event {
+    case text(Swift.String)
+    case binary(Foundation.Data)
+    case pong(Foundation.Data?)
+    case ping(Foundation.Data?)
+    case error(Swift.Error)
+    case closed(Swift.String, Swift.UInt16)
+  }
+  public func add(frame: REIOSSDK.Frame)
+  @objc deinit
+}
+@objc @_inheritsConvenienceInitializers public class NotificationHandler : ObjectiveC.NSObject {
+  public class func registerCategory(_ category: Swift.Set<UserNotifications.UNNotificationCategory>?)
+  @objc deinit
+  @objc override dynamic public init()
+}
+public struct SocketIOClientConfiguration : Swift.ExpressibleByArrayLiteral, Swift.Collection, Swift.MutableCollection {
+  public typealias Element = REIOSSDK.SocketIOClientOption
+  public typealias Index = Swift.Array<REIOSSDK.SocketIOClientOption>.Index
+  public typealias Iterator = Swift.Array<REIOSSDK.SocketIOClientOption>.Iterator
+  public typealias SubSequence = Swift.Array<REIOSSDK.SocketIOClientOption>.SubSequence
+  public var startIndex: REIOSSDK.SocketIOClientConfiguration.Index {
+    get
+  }
+  public var endIndex: REIOSSDK.SocketIOClientConfiguration.Index {
+    get
+  }
+  public var isEmpty: Swift.Bool {
+    get
+  }
+  public var count: REIOSSDK.SocketIOClientConfiguration.Index.Stride {
+    get
+  }
+  public var first: REIOSSDK.SocketIOClientConfiguration.Element? {
+    get
+  }
+  public subscript(position: REIOSSDK.SocketIOClientConfiguration.Index) -> REIOSSDK.SocketIOClientConfiguration.Element {
+    get
+    set
+  }
+  public subscript(bounds: Swift.Range<REIOSSDK.SocketIOClientConfiguration.Index>) -> REIOSSDK.SocketIOClientConfiguration.SubSequence {
+    get
+    set
+  }
+  public init(arrayLiteral elements: REIOSSDK.SocketIOClientConfiguration.Element...)
+  public func makeIterator() -> REIOSSDK.SocketIOClientConfiguration.Iterator
+  public func index(after i: REIOSSDK.SocketIOClientConfiguration.Index) -> REIOSSDK.SocketIOClientConfiguration.Index
+  public mutating func insert(_ element: REIOSSDK.SocketIOClientConfiguration.Element, replacing replace: Swift.Bool = true)
+  public typealias ArrayLiteralElement = REIOSSDK.SocketIOClientConfiguration.Element
+  public typealias Indices = Swift.DefaultIndices<REIOSSDK.SocketIOClientConfiguration>
+}
+public protocol ConfigSettable {
+  mutating func setConfigs(_ config: REIOSSDK.SocketIOClientConfiguration)
+}
+public protocol SocketManagerSpec : AnyObject, REIOSSDK.SocketEngineClient {
+  var defaultSocket: REIOSSDK.SocketIOClient { get }
+  var engine: REIOSSDK.SocketEngineSpec? { get set }
+  var forceNew: Swift.Bool { get set }
+  var handleQueue: Dispatch.DispatchQueue { get set }
+  var nsps: [Swift.String : REIOSSDK.SocketIOClient] { get set }
+  var reconnects: Swift.Bool { get set }
+  var reconnectWait: Swift.Int { get set }
+  var reconnectWaitMax: Swift.Int { get set }
+  var randomizationFactor: Swift.Double { get set }
+  var socketURL: Foundation.URL { get }
+  var status: REIOSSDK.SocketIOStatus { get }
+  var version: REIOSSDK.SocketIOVersion { get }
+  func connect()
+  func connectSocket(_ socket: REIOSSDK.SocketIOClient, withPayload: [Swift.String : Any]?)
+  func didDisconnect(reason: Swift.String)
+  func disconnect()
+  func disconnectSocket(_ socket: REIOSSDK.SocketIOClient)
+  func disconnectSocket(forNamespace nsp: Swift.String)
+  func emitAll(_ event: Swift.String, _ items: REIOSSDK.SocketData...)
+  func reconnect()
+  @discardableResult
+  func removeSocket(_ socket: REIOSSDK.SocketIOClient) -> REIOSSDK.SocketIOClient?
+  func socket(forNamespace nsp: Swift.String) -> REIOSSDK.SocketIOClient
+}
+extension REiosHandler {
+  @objc dynamic public class func addCustomEvent(_ event: Swift.String?)
+  @objc dynamic public class func addEvent(eventName: Swift.String, data: Swift.String?)
+  @objc dynamic public class func addEvent(_ eventName: Swift.String, data: [Swift.String : Any])
+  public class func addCustomEvent(name: Swift.String, data: [Swift.String : Any]?)
+}
+@objc public protocol RSInboxDelegate {
+  @objc func didSelectRSInboxRow(data: [Swift.String : Any])
+}
+@objc public protocol REiosNotificationReceiver {
+  @objc func didReceiveResponse(data: [Swift.String : Any])
+}
+@objc public protocol REiosDeeplinkReceiver {
+  @objc func didReceiveDeeplink(data: [Swift.String : Any])
+}
+@objc public protocol REiosSmartLinkReceiver {
+  @objc func didReceiveSmartLink(data: [Swift.String : Any])
+}
+@objc @_inheritsConvenienceInitializers public class REiosHandler : ObjectiveC.NSObject {
+  @objc public static var debug: Swift.Bool
+  @objc public static var notificationDelegate: REIOSSDK.REiosNotificationReceiver?
+  @objc public static var deeplinkDelegate: REIOSSDK.REiosDeeplinkReceiver?
+  @objc public static var smartLinkDelegate: REIOSSDK.REiosSmartLinkReceiver?
+  @objc public static var inboxDelegate: REIOSSDK.RSInboxDelegate?
+  public static var env: REIOSSDK.RSBaseUrl
+  @objc deinit
+  @objc override dynamic public init()
+}
+@objc @_hasMissingDesignatedInitializers final public class SocketAnyEvent : ObjectiveC.NSObject {
+  @objc final public let event: Swift.String
+  @objc final public let items: [Any]?
+  @objc override final public var description: Swift.String {
+    @objc get
+  }
+  @objc deinit
+  @objc override dynamic public init()
+}
+public protocol SocketEngineWebsocket : REIOSSDK.SocketEngineSpec {
+  var wsConnected: Swift.Bool { get }
+  func sendWebSocketMessage(_ str: Swift.String, withType type: REIOSSDK.SocketEnginePacketType, withData datas: [Foundation.Data], completion: (() -> ())?)
+}
+extension SocketEngineWebsocket {
+  public func sendWebSocketMessage(_ str: Swift.String, withType type: REIOSSDK.SocketEnginePacketType, withData data: [Foundation.Data], completion: (() -> ())?)
+}
+@_hasMissingDesignatedInitializers open class CarouselCell {
+  @objc deinit
+  open var index: Swift.Int {
+    get
+  }
+  open func uninstall()
+}
+public enum CarouselDirection {
+  case horizontal, vertical
+  public static func == (a: REIOSSDK.CarouselDirection, b: REIOSSDK.CarouselDirection) -> Swift.Bool
+  public var hashValue: Swift.Int {
+    get
+  }
+  public func hash(into hasher: inout Swift.Hasher)
+}
+public enum CarouselType {
+  case linear, loop
+  public static func == (a: REIOSSDK.CarouselType, b: REIOSSDK.CarouselType) -> Swift.Bool
+  public var hashValue: Swift.Int {
+    get
+  }
+  public func hash(into hasher: inout Swift.Hasher)
+}
+public enum CarouselPagingType {
+  case none
+  case cell
+  case cellLimit
+  case scoll
+  public static func == (a: REIOSSDK.CarouselPagingType, b: REIOSSDK.CarouselPagingType) -> Swift.Bool
+  public var hashValue: Swift.Int {
+    get
+  }
+  public func hash(into hasher: inout Swift.Hasher)
+}
+extension CarouselScrollView {
+  public var cellWidth: CoreGraphics.CGFloat {
+    get
+  }
+  public var cellHeight: CoreGraphics.CGFloat {
+    get
+  }
+  public var pageWidth: CoreGraphics.CGFloat {
+    get
+  }
+  public var pageHeight: CoreGraphics.CGFloat {
+    get
+  }
+}
+@objc @_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers open class CarouselScrollView : UIKit.UIScrollView {
+  open var cellPerPage: Swift.Int {
+    get
+    set
+  }
+  open var buffeCellCount: Swift.Int {
+    get
+    set
+  }
+  open var cacheSize: Swift.Int {
+    get
+    set
+  }
+  open var direction: REIOSSDK.CarouselDirection {
+    get
+    set
+  }
+  open var type: REIOSSDK.CarouselType
+  open var pagingType: REIOSSDK.CarouselPagingType {
+    get
+    set
+  }
+  @objc required dynamic public init?(coder aDecoder: Foundation.NSCoder)
+  @objc deinit
+  final public func updateCurrentCellsLayout()
+  open func reload()
+  @objc override dynamic open func layoutSubviews()
+}
+extension CarouselScrollView : UIKit.UIScrollViewDelegate {
+  @objc dynamic public func scrollViewWillEndDragging(_ scrollView: UIKit.UIScrollView, withVelocity velocity: CoreGraphics.CGPoint, targetContentOffset: Swift.UnsafeMutablePointer<CoreGraphics.CGPoint>)
+  @objc dynamic public func scrollViewDidScroll(_ scrollView: UIKit.UIScrollView)
+  @objc dynamic public func scrollViewWillBeginDecelerating(_ scrollView: UIKit.UIScrollView)
+  @objc dynamic public func scrollViewDidEndDecelerating(_ scrollView: UIKit.UIScrollView)
+  @objc dynamic public func scrollViewDidEndScrollingAnimation(_ scrollView: UIKit.UIScrollView)
+  @objc dynamic public func scrollViewWillBeginDragging(_ scrollView: UIKit.UIScrollView)
+  @objc dynamic public func scrollViewDidEndDragging(_ scrollView: UIKit.UIScrollView, willDecelerate decelerate: Swift.Bool)
+}
+extension CarouselScrollView {
+  public var visibleCells: [REIOSSDK.CarouselCell] {
+    get
+  }
+  public var firstVisibleCell: REIOSSDK.CarouselCell? {
+    get
+  }
+  public var lastVisibleIndex: REIOSSDK.CarouselCell? {
+    get
+  }
+  public var firstVisibleCellIndex: CoreGraphics.CGFloat {
+    get
+  }
+  public func scrollTo(cell: Swift.Int, animated: Swift.Bool = false)
+  public func nextCell(_ animated: Swift.Bool = false)
+  public func preNext(_ animated: Swift.Bool = false)
+}
+extension CarouselScrollView {
+  @objc dynamic public func autoScrollToNext()
+  @objc dynamic public func autoScrollToPre()
+  public func autoScroll(_ timeInterval: Foundation.TimeInterval, increase: Swift.Bool)
+  public func stopAutoScroll()
+  public func pauseAutoScroll()
+  public func resumeAutoScroll()
+}
+extension CarouselScrollView {
+  public func reload(index: Swift.Int)
+  public func reload(indexs: [Swift.Int])
+  public func reloadvisibleCells()
+}
+public protocol CarouselViewDataSourse : AnyObject {
+  func numberOfView(_ carousel: REIOSSDK.CarouselView) -> Swift.Int
+  func carousel(_ carousel: REIOSSDK.CarouselView, viewForIndex index: Swift.Int) -> UIKit.UIView?
+}
+@objc public protocol CarouselViewDelegate : AnyObject {
+  @objc optional func carousel(_ carousel: REIOSSDK.CarouselView, willInstallCell cell: Swift.Int)
+  @objc optional func carousel(_ carousel: REIOSSDK.CarouselView, willUninstallCell cell: Swift.Int)
+  @objc optional func carousel(_ carousel: REIOSSDK.CarouselView, didInstallCell cell: Swift.Int)
+  @objc optional func carousel(_ carousel: REIOSSDK.CarouselView, didUninstallCell cell: Swift.Int)
+  @objc optional func carousel(_ carousel: REIOSSDK.CarouselView, scrollFrom from: Swift.Int, to: Swift.Int, progress: CoreGraphics.CGFloat)
+  @objc optional func carousel(_ carousel: REIOSSDK.CarouselView, didScrollFrom from: Swift.Int, to: Swift.Int)
+  @objc optional func carouselDidScroll(_ carousel: REIOSSDK.CarouselView)
+  @objc optional func carouselWillBeginDragging(_ carousel: REIOSSDK.CarouselView)
+  @objc optional func carouselDidEndDragging(_ carousel: REIOSSDK.CarouselView, willDecelerate decelerate: Swift.Bool)
+  @objc optional func carouselWillBeginDecelerating(_ carousel: REIOSSDK.CarouselView)
+  @objc optional func carouselDidEndDecelerating(_ carousel: REIOSSDK.CarouselView)
+  @objc optional func carouselDidEndScrollingAnimation(_ carousel: REIOSSDK.CarouselView)
+  @objc optional func carousel(_ carousel: REIOSSDK.CarouselView, didTapAt cell: Swift.Int)
+}
+@objc @_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers open class CarouselView : UIKit.UIView {
+  final public let _carousel: REIOSSDK.CarouselScrollView
+  open var cellPerPage: Swift.Int {
+    get
+    set
+  }
+  open var buffeCellCount: Swift.Int {
+    get
+    set
+  }
+  open var cacheSize: Swift.Int {
+    get
+    set
+  }
+  open var direction: REIOSSDK.CarouselDirection {
+    get
+    set
+  }
+  open var type: REIOSSDK.CarouselType {
+    get
+    set
+  }
+  open var pagingType: REIOSSDK.CarouselPagingType {
+    get
+    set
+  }
+  weak open var dataSource: REIOSSDK.CarouselViewDataSourse? {
+    get
+    set
+  }
+  weak open var myNewDelegate: REIOSSDK.CarouselViewDelegate? {
+    get
+    set
+  }
+  @objc required dynamic public init?(coder aDecoder: Foundation.NSCoder)
+  @objc override dynamic open func layoutSubviews()
+  @objc deinit
+}
+public protocol CarouselViewControllerDataSourse : AnyObject {
+  func numberOfViewController(_ carousel: REIOSSDK.CarouselViewController) -> Swift.Int
+  func carousel(_ carousel: REIOSSDK.CarouselViewController, viewControllerForIndex index: Swift.Int) -> UIKit.UIViewController?
+}
+@objc public protocol CarouselViewControllerDelegate : AnyObject {
+  @objc optional func carousel(_ carousel: REIOSSDK.CarouselViewController, willInstallCell cell: Swift.Int)
+  @objc optional func carousel(_ carousel: REIOSSDK.CarouselViewController, willUninstallCell cell: Swift.Int)
+  @objc optional func carousel(_ carousel: REIOSSDK.CarouselViewController, didInstallCell cell: Swift.Int)
+  @objc optional func carousel(_ carousel: REIOSSDK.CarouselViewController, didUninstallCell cell: Swift.Int)
+  @objc optional func carousel(_ carousel: REIOSSDK.CarouselViewController, scrollFrom from: Swift.Int, to: Swift.Int, progress: CoreGraphics.CGFloat)
+  @objc optional func carousel(_ carousel: REIOSSDK.CarouselViewController, didScrollFrom from: Swift.Int, to: Swift.Int)
+  @objc optional func carouselDidScroll(_ carousel: REIOSSDK.CarouselViewController)
+  @objc optional func carouselWillBeginDragging(_ carousel: REIOSSDK.CarouselViewController)
+  @objc optional func carouselDidEndDragging(_ carousel: REIOSSDK.CarouselViewController, willDecelerate decelerate: Swift.Bool)
+  @objc optional func carouselWillBeginDecelerating(_ carousel: REIOSSDK.CarouselViewController)
+  @objc optional func carouselDidEndDecelerating(_ carousel: REIOSSDK.CarouselViewController)
+  @objc optional func carouselDidEndScrollingAnimation(_ carousel: REIOSSDK.CarouselViewController)
+  @objc optional func carousel(_ carousel: REIOSSDK.CarouselViewController, didTapAt cell: Swift.Int)
+}
+@objc @_inheritsConvenienceInitializers open class CarouselViewController : UIKit.UIViewController {
+  open var cellPerPage: Swift.Int {
+    get
+    set
+  }
+  open var buffeCellCount: Swift.Int {
+    get
+    set
+  }
+  open var cacheSize: Swift.Int {
+    get
+    set
+  }
+  open var direction: REIOSSDK.CarouselDirection {
+    get
+    set
+  }
+  open var type: REIOSSDK.CarouselType {
+    get
+    set
+  }
+  open var pagingType: REIOSSDK.CarouselPagingType {
+    get
+    set
+  }
+  weak open var dataSource: REIOSSDK.CarouselViewControllerDataSourse? {
+    get
+    set
+  }
+  weak open var delegate: REIOSSDK.CarouselViewControllerDelegate? {
+    get
+    set
+  }
+  open var autoScrolOnlyViewAppeared: Swift.Bool
+  open var _carousel: REIOSSDK.CarouselScrollView {
+    get
+  }
+  @objc override dynamic open func loadView()
+  @objc deinit
+  @objc override dynamic public init(nibName nibNameOrNil: Swift.String?, bundle nibBundleOrNil: Foundation.Bundle?)
+  @objc required dynamic public init?(coder: Foundation.NSCoder)
+}
+public protocol CarouselProtocol {
+  var _carousel: REIOSSDK.CarouselScrollView { get }
+}
+extension CarouselProtocol {
+  public var visibleCells: [REIOSSDK.CarouselCell] {
+    get
+  }
+  public var firstVisibleCell: REIOSSDK.CarouselCell? {
+    get
+  }
+  public var lastVisibleIndex: REIOSSDK.CarouselCell? {
+    get
+  }
+  public var firstVisibleCellIndex: CoreGraphics.CGFloat {
+    get
+  }
+  public func scrollTo(cell: Swift.Int, animated: Swift.Bool = false)
+  public func nextCell(_ animated: Swift.Bool = false)
+  public func preNext(_ animated: Swift.Bool = false)
+}
+extension CarouselProtocol {
+  public func autoScroll(_ timeInterval: Foundation.TimeInterval, increase: Swift.Bool)
+  public func stopAutoScroll()
+  public func pauseAutoScroll()
+  public func resumeAutoScroll()
+}
+extension CarouselProtocol {
+  public func reload()
+  public func reload(index: Swift.Int)
+  public func reload(indexs: [Swift.Int])
+  public func reloadvisibleCells()
+}
+extension CarouselProtocol {
+  public var isTapEnabled: Swift.Bool {
+    get
+    set
+  }
+}
+extension CarouselView : REIOSSDK.CarouselProtocol {
+}
+extension CarouselViewController : REIOSSDK.CarouselProtocol {
+  @objc override dynamic open func viewWillAppear(_ animated: Swift.Bool)
+  @objc override dynamic open func viewDidDisappear(_ animated: Swift.Bool)
+}
+extension UIImage {
+  public class func gifImageWithData(data: Foundation.NSData) -> UIKit.UIImage?
+  public class func gifImageWithURL(gifUrl: Swift.String) -> UIKit.UIImage?
+  public class func gifImageWithName(name: Swift.String) -> UIKit.UIImage?
+}
+extension UIImageView {
+  public func imageFromServerURL(urlString: Swift.String)
+}
+public enum RSBaseUrl : Swift.String {
+  case team
+  case biz
+  case run
+  case sTeam
+  case sBiz
+  case sRun
+  case sdkResu
+  case apisvc
+  public typealias RawValue = Swift.String
+  public init?(rawValue: Swift.String)
+  public var rawValue: Swift.String {
+    get
+  }
+}
+public enum SocketAckStatus : Swift.String {
+  case noAck
+  public static func == (lhs: Swift.String, rhs: REIOSSDK.SocketAckStatus) -> Swift.Bool
+  public static func == (lhs: REIOSSDK.SocketAckStatus, rhs: Swift.String) -> Swift.Bool
+  public typealias RawValue = Swift.String
+  public init?(rawValue: Swift.String)
+  public var rawValue: Swift.String {
+    get
+  }
+}
+@objc public enum SocketIOStatus : Swift.Int, Swift.CustomStringConvertible {
+  case notConnected
+  case disconnected
+  case connecting
+  case connected
+  public var active: Swift.Bool {
+    get
+  }
+  public var description: Swift.String {
+    get
+  }
+  public typealias RawValue = Swift.Int
+  public init?(rawValue: Swift.Int)
+  public var rawValue: Swift.Int {
+    get
+  }
+}
+public struct SocketEventHandler {
+  public let event: Swift.String
+  public let id: Foundation.UUID
+  public let callback: REIOSSDK.NormalCallback
+  public func executeCallback(with items: [Any], withAck ack: Swift.Int, withSocket socket: REIOSSDK.SocketIOClient)
+}
+public enum SecurityErrorCode : Swift.UInt16 {
+  case acceptFailed
+  case pinningFailed
+  public typealias RawValue = Swift.UInt16
+  public init?(rawValue: Swift.UInt16)
+  public var rawValue: Swift.UInt16 {
+    get
+  }
+}
+public enum PinningState {
+  case success
+  case failed(CoreFoundation.CFError?)
+}
+public protocol CertificatePinning : AnyObject {
+  func evaluateTrust(trust: Security.SecTrust, domain: Swift.String?, completion: ((REIOSSDK.PinningState) -> ()))
+}
+public protocol HeaderValidator : AnyObject {
+  func validate(headers: [Swift.String : Swift.String], key: Swift.String) -> Swift.Error?
+}
+public protocol SocketParsable : AnyObject {
+  func parseBinaryData(_ data: Foundation.Data) -> REIOSSDK.SocketPacket?
+  func parseSocketMessage(_ message: Swift.String) -> REIOSSDK.SocketPacket?
+}
+public enum SocketParsableError : Swift.Error {
+  case invalidDataArray
+  case invalidPacket
+  case invalidPacketType
+  public static func == (a: REIOSSDK.SocketParsableError, b: REIOSSDK.SocketParsableError) -> Swift.Bool
+  public var hashValue: Swift.Int {
+    get
+  }
+  public func hash(into hasher: inout Swift.Hasher)
+}
+public protocol SocketDataBufferable : AnyObject {
+  var waitingPackets: [REIOSSDK.SocketPacket] { get set }
+}
+extension SocketParsable where Self : REIOSSDK.SocketDataBufferable, Self : REIOSSDK.SocketManagerSpec {
+  public func parseSocketMessage(_ message: Swift.String) -> REIOSSDK.SocketPacket?
+  public func parseBinaryData(_ data: Foundation.Data) -> REIOSSDK.SocketPacket?
+}
+@_hasMissingDesignatedInitializers open class NetworkReachabilityManager {
+  public enum NetworkReachabilityStatus {
+    case unknown
+    case notReachable
+    case reachable(REIOSSDK.NetworkReachabilityManager.ConnectionType)
+  }
+  public enum ConnectionType {
+    case ethernetOrWiFi
+    case wwan
+    public static func == (a: REIOSSDK.NetworkReachabilityManager.ConnectionType, b: REIOSSDK.NetworkReachabilityManager.ConnectionType) -> Swift.Bool
+    public var hashValue: Swift.Int {
+      get
+    }
+    public func hash(into hasher: inout Swift.Hasher)
+  }
+  public typealias Listener = (REIOSSDK.NetworkReachabilityManager.NetworkReachabilityStatus) -> Swift.Void
+  open var isReachable: Swift.Bool {
+    get
+  }
+  open var isReachableOnWWAN: Swift.Bool {
+    get
+  }
+  open var isReachableOnEthernetOrWiFi: Swift.Bool {
+    get
+  }
+  open var networkReachabilityStatus: REIOSSDK.NetworkReachabilityManager.NetworkReachabilityStatus {
+    get
+  }
+  open var listenerQueue: Dispatch.DispatchQueue
+  open var listener: REIOSSDK.NetworkReachabilityManager.Listener?
+  open var flags: SystemConfiguration.SCNetworkReachabilityFlags? {
+    get
+  }
+  open var previousFlags: SystemConfiguration.SCNetworkReachabilityFlags
+  convenience public init?(host: Swift.String)
+  convenience public init?()
+  @objc deinit
+  @discardableResult
+  open func startListening() -> Swift.Bool
+  open func stopListening()
+}
+extension NetworkReachabilityManager.NetworkReachabilityStatus : Swift.Equatable {
+}
+public func == (lhs: REIOSSDK.NetworkReachabilityManager.NetworkReachabilityStatus, rhs: REIOSSDK.NetworkReachabilityManager.NetworkReachabilityStatus) -> Swift.Bool
+public enum ErrorType : Swift.Error {
+  case compressionError
+  case securityError
+  case protocolError
+  case serverError
+  public static func == (a: REIOSSDK.ErrorType, b: REIOSSDK.ErrorType) -> Swift.Bool
+  public var hashValue: Swift.Int {
+    get
+  }
+  public func hash(into hasher: inout Swift.Hasher)
+}
+public struct WSError : Swift.Error {
+  public let type: REIOSSDK.ErrorType
+  public let message: Swift.String
+  public let code: Swift.UInt16
+  public init(type: REIOSSDK.ErrorType, message: Swift.String, code: Swift.UInt16)
+}
+public protocol WebSocketClient : AnyObject {
+  func connect()
+  func disconnect(closeCode: Swift.UInt16)
+  func write(string: Swift.String, completion: (() -> ())?)
+  func write(stringData: Foundation.Data, completion: (() -> ())?)
+  func write(data: Foundation.Data, completion: (() -> ())?)
+  func write(ping: Foundation.Data, completion: (() -> ())?)
+  func write(pong: Foundation.Data, completion: (() -> ())?)
+}
+extension WebSocketClient {
+  public func write(string: Swift.String)
+  public func write(data: Foundation.Data)
+  public func write(ping: Foundation.Data)
+  public func write(pong: Foundation.Data)
+  public func disconnect()
+}
+public enum WebSocketEvent {
+  case connected([Swift.String : Swift.String])
+  case disconnected(Swift.String, Swift.UInt16)
+  case text(Swift.String)
+  case binary(Foundation.Data)
+  case pong(Foundation.Data?)
+  case ping(Foundation.Data?)
+  case error(Swift.Error?)
+  case viabilityChanged(Swift.Bool)
+  case reconnectSuggested(Swift.Bool)
+  case cancelled
+}
+public protocol WebSocketDelegate : AnyObject {
+  func didReceive(event: REIOSSDK.WebSocketEvent, client: REIOSSDK.WebSocket)
+}
+open class WebSocket : REIOSSDK.WebSocketClient, REIOSSDK.EngineDelegate {
+  weak public var delegate: REIOSSDK.WebSocketDelegate?
+  public var onEvent: ((REIOSSDK.WebSocketEvent) -> Swift.Void)?
+  public var request: Foundation.URLRequest
+  public var callbackQueue: Dispatch.DispatchQueue
+  public var respondToPingWithPong: Swift.Bool {
+    get
+    set
+  }
+  public init(request: Foundation.URLRequest, engine: REIOSSDK.Engine)
+  convenience public init(request: Foundation.URLRequest, certPinner: REIOSSDK.CertificatePinning? = FoundationSecurity(), compressionHandler: REIOSSDK.CompressionHandler? = nil, useCustomEngine: Swift.Bool = true)
+  public func connect()
+  public func disconnect(closeCode: Swift.UInt16 = CloseCode.normal.rawValue)
+  public func forceDisconnect()
+  public func write(data: Foundation.Data, completion: (() -> ())?)
+  public func write(string: Swift.String, completion: (() -> ())?)
+  public func write(stringData: Foundation.Data, completion: (() -> ())?)
+  public func write(ping: Foundation.Data, completion: (() -> ())?)
+  public func write(pong: Foundation.Data, completion: (() -> ())?)
+  public func didReceive(event: REIOSSDK.WebSocketEvent)
+  @objc deinit
+}
+extension REiosHandler {
+  @objc dynamic public class func appConversionTracking()
+  @objc dynamic public class func appConversionTrackingWith(dict: [Swift.String : Any])
+}
+@_inheritsConvenienceInitializers @objc(ScreenTracking) public class ScreenTracking : CoreData.NSManagedObject {
+  @objc deinit
+  @objc override dynamic public init(entity: CoreData.NSEntityDescription, insertInto context: CoreData.NSManagedObjectContext?)
+}
+extension ScreenTracking {
+  @nonobjc public class func fetchRequest() -> CoreData.NSFetchRequest<REIOSSDK.ScreenTracking>
+  @objc @NSManaged dynamic public var dict: ObjectiveC.NSObject? {
+    @objc get
+    @objc set
+  }
+  @objc @NSManaged dynamic public var date: Foundation.Date? {
+    @objc get
+    @objc set
+  }
+}
+@_inheritsConvenienceInitializers @objc(NotificationList) public class NotificationList : CoreData.NSManagedObject {
+  @objc deinit
+  @objc override dynamic public init(entity: CoreData.NSEntityDescription, insertInto context: CoreData.NSManagedObjectContext?)
+}
+extension NotificationList {
+  @nonobjc public class func fetchRequest() -> CoreData.NSFetchRequest<REIOSSDK.NotificationList>
+  @objc @NSManaged dynamic public var dict: ObjectiveC.NSObject? {
+    @objc get
+    @objc set
+  }
+  @objc @NSManaged dynamic public var date: Foundation.Date? {
+    @objc get
+    @objc set
+  }
+}
+@_inheritsConvenienceInitializers @objc(EventTracking) public class EventTracking : CoreData.NSManagedObject {
+  @objc deinit
+  @objc override dynamic public init(entity: CoreData.NSEntityDescription, insertInto context: CoreData.NSManagedObjectContext?)
+}
+extension EventTracking {
+  @nonobjc public class func fetchRequest() -> CoreData.NSFetchRequest<REIOSSDK.EventTracking>
+  @objc @NSManaged dynamic public var dict: ObjectiveC.NSObject? {
+    @objc get
+    @objc set
+  }
+  @objc @NSManaged dynamic public var date: Foundation.Date? {
+    @objc get
+    @objc set
+  }
+}
+@_inheritsConvenienceInitializers @objc(CampaignTracking) public class CampaignTracking : CoreData.NSManagedObject {
+  @objc deinit
+  @objc override dynamic public init(entity: CoreData.NSEntityDescription, insertInto context: CoreData.NSManagedObjectContext?)
+}
+extension CampaignTracking {
+  @nonobjc public class func fetchRequest() -> CoreData.NSFetchRequest<REIOSSDK.CampaignTracking>
+  @objc @NSManaged dynamic public var dict: ObjectiveC.NSObject? {
+    @objc get
+    @objc set
+  }
+  @objc @NSManaged dynamic public var date: Foundation.Date? {
+    @objc get
+    @objc set
+  }
+}
+@_inheritsConvenienceInitializers @objc(FieldTracking) public class FieldTracking : CoreData.NSManagedObject {
+  @objc deinit
+  @objc override dynamic public init(entity: CoreData.NSEntityDescription, insertInto context: CoreData.NSManagedObjectContext?)
+}
+extension FieldTracking {
+  @nonobjc public class func fetchRequest() -> CoreData.NSFetchRequest<REIOSSDK.FieldTracking>
+  @objc @NSManaged dynamic public var captureType: Swift.String? {
+    @objc get
+    @objc set
+  }
+  @objc @NSManaged dynamic public var identifier: Swift.String? {
+    @objc get
+    @objc set
+  }
+  @objc @NSManaged dynamic public var screenName: Swift.String? {
+    @objc get
+    @objc set
+  }
+  @objc @NSManaged dynamic public var descriptionn: Swift.String? {
+    @objc get
+    @objc set
+  }
+  @objc @NSManaged dynamic public var campaignId: Swift.String? {
+    @objc get
+    @objc set
+  }
+  @objc @NSManaged dynamic public var markAsGoal: Swift.String? {
+    @objc get
+    @objc set
+  }
+  @objc @NSManaged dynamic public var minDuration: Swift.String? {
+    @objc get
+    @objc set
+  }
+  @objc @NSManaged dynamic public var minLength: Swift.String? {
+    @objc get
+    @objc set
+  }
+  @objc @NSManaged dynamic public var dict: ObjectiveC.NSObject? {
+    @objc get
+    @objc set
+  }
+  @objc @NSManaged dynamic public var date: Foundation.Date? {
+    @objc get
+    @objc set
+  }
+}
+public struct SocketPacket : Swift.CustomStringConvertible {
+  public let nsp: Swift.String
+  public let id: Swift.Int
+  public let type: REIOSSDK.SocketPacket.PacketType
+  public var binary: [Foundation.Data] {
+    get
+  }
+  public var data: [Any] {
+    get
+  }
+  public var args: [Any] {
+    get
+  }
+  public var description: Swift.String {
+    get
+  }
+  public var event: Swift.String {
+    get
+  }
+  public var packetString: Swift.String {
+    get
+  }
+}
+extension SocketPacket {
+  public enum PacketType : Swift.Int {
+    case connect
+    case disconnect
+    case event
+    case ack
+    case error
+    case binaryEvent
+    case binaryAck
+    public var isBinary: Swift.Bool {
+      get
+    }
+    public typealias RawValue = Swift.Int
+    public init?(rawValue: Swift.Int)
+    public var rawValue: Swift.Int {
+      get
+    }
+  }
+}
+@objc open class SocketEngine : ObjectiveC.NSObject, REIOSSDK.WebSocketDelegate, Foundation.URLSessionDelegate, REIOSSDK.SocketEnginePollable, REIOSSDK.SocketEngineWebsocket, REIOSSDK.ConfigSettable {
+  final public let engineQueue: Dispatch.DispatchQueue
+  public var connectParams: [Swift.String : Any]? {
+    get
+    set
+  }
+  public var extraHeaders: [Swift.String : Swift.String]?
+  public var postWait: [REIOSSDK.Post]
+  public var waitingForPoll: Swift.Bool
+  public var waitingForPost: Swift.Bool
+  public var closed: Swift.Bool {
+    get
+  }
+  public var compress: Swift.Bool {
+    get
+  }
+  public var connected: Swift.Bool {
+    get
+  }
+  public var cookies: [Foundation.HTTPCookie]? {
+    get
+  }
+  public var fastUpgrade: Swift.Bool {
+    get
+  }
+  public var forcePolling: Swift.Bool {
+    get
+  }
+  public var forceWebsockets: Swift.Bool {
+    get
+  }
+  public var invalidated: Swift.Bool {
+    get
+  }
+  public var polling: Swift.Bool {
+    get
+  }
+  public var probing: Swift.Bool {
+    get
+  }
+  public var session: Foundation.URLSession? {
+    get
+  }
+  public var sid: Swift.String {
+    get
+  }
+  public var socketPath: Swift.String {
+    get
+  }
+  public var urlPolling: Foundation.URL {
+    get
+  }
+  public var urlWebSocket: Foundation.URL {
+    get
+  }
+  public var version: REIOSSDK.SocketIOVersion {
+    get
+  }
+  @available(*, deprecated, message: "No longer needed, if we're not polling, then we must be doing websockets")
+  public var websocket: Swift.Bool {
+    get
+  }
+  public var enableSOCKSProxy: Swift.Bool {
+    get
+  }
+  public var ws: REIOSSDK.WebSocket? {
+    get
+  }
+  public var wsConnected: Swift.Bool {
+    get
+  }
+  weak public var client: REIOSSDK.SocketEngineClient?
+  public init(client: REIOSSDK.SocketEngineClient, url: Foundation.URL, config: REIOSSDK.SocketIOClientConfiguration)
+  required convenience public init(client: REIOSSDK.SocketEngineClient, url: Foundation.URL, options: [Swift.String : Any]?)
+  @objc deinit
+  open func connect()
+  open func didError(reason: Swift.String)
+  open func disconnect(reason: Swift.String)
+  open func doFastUpgrade()
+  open func flushWaitingForPostToWebSocket()
+  open func parseEngineData(_ data: Foundation.Data)
+  open func parseEngineMessage(_ message: Swift.String)
+  open func setConfigs(_ config: REIOSSDK.SocketIOClientConfiguration)
+  open func write(_ msg: Swift.String, withType type: REIOSSDK.SocketEnginePacketType, withData data: [Foundation.Data], completion: (() -> ())? = nil)
+  @objc override dynamic public init()
+}
+extension SocketEngine {
+  public func URLSession(session: Foundation.URLSession, didBecomeInvalidWithError error: Foundation.NSError?)
+}
+extension SocketEngine {
+  public func didReceive(event: REIOSSDK.WebSocketEvent, client _: REIOSSDK.WebSocket)
+}
+@objc @_inheritsConvenienceInitializers @available(OSX 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
+public class NativeEngine : ObjectiveC.NSObject, REIOSSDK.Engine, Foundation.URLSessionDataDelegate, Foundation.URLSessionWebSocketDelegate {
+  public func register(delegate: REIOSSDK.EngineDelegate)
+  public func start(request: Foundation.URLRequest)
+  public func stop(closeCode: Swift.UInt16)
+  public func forceStop()
+  public func write(string: Swift.String, completion: (() -> ())?)
+  public func write(data: Foundation.Data, opcode: REIOSSDK.FrameOpCode, completion: (() -> ())?)
+  @objc public func urlSession(_ session: Foundation.URLSession, webSocketTask: Foundation.URLSessionWebSocketTask, didOpenWithProtocol protocol: Swift.String?)
+  @objc public func urlSession(_ session: Foundation.URLSession, webSocketTask: Foundation.URLSessionWebSocketTask, didCloseWith closeCode: Foundation.URLSessionWebSocketTask.CloseCode, reason: Foundation.Data?)
+  @objc override dynamic public init()
+  @objc deinit
+}
+public enum FoundationSecurityError : Swift.Error {
+  case invalidRequest
+  public static func == (a: REIOSSDK.FoundationSecurityError, b: REIOSSDK.FoundationSecurityError) -> Swift.Bool
+  public var hashValue: Swift.Int {
+    get
+  }
+  public func hash(into hasher: inout Swift.Hasher)
+}
+public class FoundationSecurity {
+  public init(allowSelfSigned: Swift.Bool = false)
+  @objc deinit
+}
+extension FoundationSecurity : REIOSSDK.CertificatePinning {
+  public func evaluateTrust(trust: Security.SecTrust, domain: Swift.String?, completion: ((REIOSSDK.PinningState) -> ()))
+}
+extension FoundationSecurity : REIOSSDK.HeaderValidator {
+  public func validate(headers: [Swift.String : Swift.String], key: Swift.String) -> Swift.Error?
+}
+@available(OSX 10.14, iOS 12.0, watchOS 5.0, tvOS 12.0, *)
+@available(watchOS, unavailable)
+public class WebSocketServer : REIOSSDK.Server, REIOSSDK.ConnectionDelegate {
+  public var onEvent: ((REIOSSDK.ServerEvent) -> Swift.Void)?
+  public init()
+  public func start(address: Swift.String, port: Swift.UInt16) -> Swift.Error?
+  public func didReceive(event: REIOSSDK.ServerEvent)
+  @objc deinit
+}
+@_hasMissingDesignatedInitializers @available(OSX 10.14, iOS 12.0, watchOS 5.0, tvOS 12.0, *)
+public class ServerConnection : REIOSSDK.Connection, REIOSSDK.HTTPServerDelegate, REIOSSDK.FramerEventClient, REIOSSDK.FrameCollectorDelegate, REIOSSDK.TransportEventClient {
+  public var onEvent: ((REIOSSDK.ConnectionEvent) -> Swift.Void)?
+  weak public var delegate: REIOSSDK.ConnectionDelegate?
+  public func write(data: Foundation.Data, opcode: REIOSSDK.FrameOpCode)
+  public func connectionChanged(state: REIOSSDK.ConnectionState)
+  public func didReceive(event: REIOSSDK.HTTPEvent)
+  public func frameProcessed(event: REIOSSDK.FrameEvent)
+  public func didForm(event: REIOSSDK.FrameCollector.Event)
+  public func decompress(data: Foundation.Data, isFinal: Swift.Bool) -> Foundation.Data?
+  @objc deinit
+}
+public enum TableName : Swift.String {
+  case screenTracking
+  case notificationList
+  case campaignTracking
+  case eventTracking
+  case fieldTracking
+  public typealias RawValue = Swift.String
+  public init?(rawValue: Swift.String)
+  public var rawValue: Swift.String {
+    get
+  }
+}
+public class WSEngine : REIOSSDK.Engine, REIOSSDK.TransportEventClient, REIOSSDK.FramerEventClient, REIOSSDK.FrameCollectorDelegate, REIOSSDK.HTTPHandlerDelegate {
+  public var respondToPingWithPong: Swift.Bool
+  public init(transport: REIOSSDK.Transport, certPinner: REIOSSDK.CertificatePinning? = nil, headerValidator: REIOSSDK.HeaderValidator = FoundationSecurity(), httpHandler: REIOSSDK.HTTPHandler = FoundationHTTPHandler(), framer: REIOSSDK.Framer = WSFramer(), compressionHandler: REIOSSDK.CompressionHandler? = nil)
+  public func register(delegate: REIOSSDK.EngineDelegate)
+  public func start(request: Foundation.URLRequest)
+  public func stop(closeCode: Swift.UInt16 = CloseCode.normal.rawValue)
+  public func forceStop()
+  public func write(string: Swift.String, completion: (() -> ())?)
+  public func write(data: Foundation.Data, opcode: REIOSSDK.FrameOpCode, completion: (() -> ())?)
+  public func connectionChanged(state: REIOSSDK.ConnectionState)
+  public func didReceiveHTTP(event: REIOSSDK.HTTPEvent)
+  public func frameProcessed(event: REIOSSDK.FrameEvent)
+  public func decompress(data: Foundation.Data, isFinal: Swift.Bool) -> Foundation.Data?
+  public func didForm(event: REIOSSDK.FrameCollector.Event)
+  @objc deinit
+}
+public enum ConnectionState {
+  case connected
+  case waiting
+  case cancelled
+  case failed(Swift.Error?)
+  case viability(Swift.Bool)
+  case shouldReconnect(Swift.Bool)
+  case receive(Foundation.Data)
+}
+public protocol TransportEventClient : AnyObject {
+  func connectionChanged(state: REIOSSDK.ConnectionState)
+}
+public protocol Transport : AnyObject {
+  func register(delegate: REIOSSDK.TransportEventClient)
+  func connect(url: Foundation.URL, timeout: Swift.Double, certificatePinning: REIOSSDK.CertificatePinning?)
+  func disconnect()
+  func write(data: Foundation.Data, completion: @escaping ((Swift.Error?) -> ()))
+  var usingTLS: Swift.Bool { get }
+}
+public class WSCompression : REIOSSDK.CompressionHandler {
+  public init()
+  public func load(headers: [Swift.String : Swift.String])
+  public func decompress(data: Foundation.Data, isFinal: Swift.Bool) -> Foundation.Data?
+  public func compress(data: Foundation.Data) -> Foundation.Data?
+  @objc deinit
+}
+extension REiosHandler {
+  @objc dynamic public class func registerUserData(_ params: Swift.String?)
+  @objc dynamic public class func sdkRegistrationWithDict(params: [Swift.String : Any])
+}
+extension REiosHandler {
+  @objc dynamic public class func sdkRegistrationWith(params: [Swift.String : Any], success: @escaping (Swift.Int) -> (), failure: @escaping (Swift.String) -> ())
+}
+extension UIViewController {
+  @objc override dynamic open func motionEnded(_ motion: UIKit.UIEvent.EventSubtype, with event: UIKit.UIEvent?)
+}
+public enum Model1 : Swift.String {
+  case simulator, iPod1, iPod2, iPod3, iPod4, iPod5, iPad2, iPad3, iPad4, iPhone4, iPhone4S, iPhone5, iPhone5S, iPhone5C, iPadMini1, iPadMini2, iPadMini3, iPadAir1, iPadAir2, iPadPro9_7, iPadPro9_7_cell, iPadPro10_5, iPadPro10_5_cell, iPadPro12_9, iPadPro12_9_cell, iPhone6, iPhone6plus, iPhone6S, iPhone6Splus, iPhoneSE, iPhone7, iPhone7plus, iPhone8, iPhone8plus, iPhoneX, iPhoneXS, iPhoneXSmax, iPhoneXR, iPhone11, iPhone11Pro, iPhone11ProMax, unrecognized
+  public typealias RawValue = Swift.String
+  public init?(rawValue: Swift.String)
+  public var rawValue: Swift.String {
+    get
+  }
+}
+extension UIDevice {
+  public static var modelname: REIOSSDK.Model1 {
+    get
+  }
+}
+@objc public protocol SocketEngineClient {
+  @objc func engineDidError(reason: Swift.String)
+  @objc func engineDidClose(reason: Swift.String)
+  @objc func engineDidOpen(reason: Swift.String)
+  @objc func engineDidReceivePing()
+  @objc func engineDidReceivePong()
+  @objc func engineDidSendPing()
+  @objc func engineDidSendPong()
+  @objc func parseEngineMessage(_ msg: Swift.String)
+  @objc func parseEngineBinaryData(_ data: Foundation.Data)
+  @objc func engineDidWebsocketUpgrade(headers: [Swift.String : Swift.String])
+}
+public protocol CompressionHandler {
+  func load(headers: [Swift.String : Swift.String])
+  func decompress(data: Foundation.Data, isFinal: Swift.Bool) -> Foundation.Data?
+  func compress(data: Foundation.Data) -> Foundation.Data?
+}
+@_hasMissingDesignatedInitializers public class FoundationHTTPServerHandler : REIOSSDK.HTTPServerHandler {
+  public func register(delegate: REIOSSDK.HTTPServerDelegate)
+  public func createResponse(headers: [Swift.String : Swift.String]) -> Foundation.Data
+  public func parse(data: Foundation.Data)
+  @objc deinit
+}
+public protocol EngineDelegate : AnyObject {
+  func didReceive(event: REIOSSDK.WebSocketEvent)
+}
+public protocol Engine {
+  func register(delegate: REIOSSDK.EngineDelegate)
+  func start(request: Foundation.URLRequest)
+  func stop(closeCode: Swift.UInt16)
+  func forceStop()
+  func write(data: Foundation.Data, opcode: REIOSSDK.FrameOpCode, completion: (() -> ())?)
+  func write(string: Swift.String, completion: (() -> ())?)
+}
+public enum ConnectionEvent {
+  case connected([Swift.String : Swift.String])
+  case disconnected(Swift.String, Swift.UInt16)
+  case text(Swift.String)
+  case binary(Foundation.Data)
+  case pong(Foundation.Data?)
+  case ping(Foundation.Data?)
+  case error(Swift.Error)
+}
+public protocol Connection {
+  func write(data: Foundation.Data, opcode: REIOSSDK.FrameOpCode)
+}
+public protocol ConnectionDelegate : AnyObject {
+  func didReceive(event: REIOSSDK.ServerEvent)
+}
+public enum ServerEvent {
+  case connected(REIOSSDK.Connection, [Swift.String : Swift.String])
+  case disconnected(REIOSSDK.Connection, Swift.String, Swift.UInt16)
+  case text(REIOSSDK.Connection, Swift.String)
+  case binary(REIOSSDK.Connection, Foundation.Data)
+  case pong(REIOSSDK.Connection, Foundation.Data?)
+  case ping(REIOSSDK.Connection, Foundation.Data?)
+}
+public protocol Server {
+  func start(address: Swift.String, port: Swift.UInt16) -> Swift.Error?
+}
+@objc open class SocketIOClient : ObjectiveC.NSObject, REIOSSDK.SocketIOClientSpec {
+  final public let nsp: Swift.String
+  public var anyHandler: ((REIOSSDK.SocketAnyEvent) -> ())? {
+    get
+  }
+  public var handlers: [REIOSSDK.SocketEventHandler] {
+    get
+  }
+  weak public var manager: REIOSSDK.SocketManagerSpec? {
+    get
+  }
+  public var rawEmitView: REIOSSDK.SocketRawView {
+    get
+  }
+  public var status: REIOSSDK.SocketIOStatus {
+    get
+  }
+  public var sid: Swift.String? {
+    get
+  }
+  public init(manager: REIOSSDK.SocketManagerSpec, nsp: Swift.String)
+  @objc deinit
+  open func connect(withPayload payload: [Swift.String : Any]? = nil)
+  open func connect(withPayload payload: [Swift.String : Any]? = nil, timeoutAfter: Swift.Double, withHandler handler: (() -> ())?)
+  open func didConnect(toNamespace namespace: Swift.String, payload: [Swift.String : Any]?)
+  open func didDisconnect(reason: Swift.String)
+  open func disconnect()
+  open func emit(_ event: Swift.String, _ items: REIOSSDK.SocketData..., completion: (() -> ())? = nil)
+  open func emit(_ event: Swift.String, with items: [REIOSSDK.SocketData], completion: (() -> ())?)
+  open func emitWithAck(_ event: Swift.String, _ items: REIOSSDK.SocketData...) -> REIOSSDK.OnAckCallback
+  open func emitWithAck(_ event: Swift.String, with items: [REIOSSDK.SocketData]) -> REIOSSDK.OnAckCallback
+  open func emitAck(_ ack: Swift.Int, with items: [Any])
+  open func handleAck(_ ack: Swift.Int, data: [Any])
+  open func handleClientEvent(_ event: REIOSSDK.SocketClientEvent, data: [Any])
+  open func handleEvent(_ event: Swift.String, data: [Any], isInternalMessage: Swift.Bool, withAck ack: Swift.Int = -1)
+  open func handlePacket(_ packet: REIOSSDK.SocketPacket)
+  open func leaveNamespace()
+  open func joinNamespace(withPayload payload: [Swift.String : Any]? = nil)
+  open func off(clientEvent event: REIOSSDK.SocketClientEvent)
+  open func off(_ event: Swift.String)
+  open func off(id: Foundation.UUID)
+  @discardableResult
+  open func on(_ event: Swift.String, callback: @escaping REIOSSDK.NormalCallback) -> Foundation.UUID
+  @discardableResult
+  open func on(clientEvent event: REIOSSDK.SocketClientEvent, callback: @escaping REIOSSDK.NormalCallback) -> Foundation.UUID
+  @discardableResult
+  open func once(clientEvent event: REIOSSDK.SocketClientEvent, callback: @escaping REIOSSDK.NormalCallback) -> Foundation.UUID
+  @discardableResult
+  open func once(_ event: Swift.String, callback: @escaping REIOSSDK.NormalCallback) -> Foundation.UUID
+  open func onAny(_ handler: @escaping (REIOSSDK.SocketAnyEvent) -> ())
+  @available(*, unavailable, message: "Call the manager's reconnect method")
+  open func reconnect()
+  open func removeAllHandlers()
+  open func setReconnecting(reason: Swift.String)
+  @objc override dynamic public init()
+}
+public enum CloseCode : Swift.UInt16 {
+  case normal
+  case goingAway
+  case protocolError
+  case protocolUnhandledType
+  case noStatusReceived
+  case encoding
+  case policyViolated
+  case messageTooBig
+  public typealias RawValue = Swift.UInt16
+  public var rawValue: Swift.UInt16 {
+    get
+  }
+  public init?(rawValue: Swift.UInt16)
+}
+public enum FrameOpCode : Swift.UInt8 {
+  case continueFrame
+  case textFrame
+  case binaryFrame
+  case connectionClose
+  case ping
+  case pong
+  case unknown
+  public typealias RawValue = Swift.UInt8
+  public init?(rawValue: Swift.UInt8)
+  public var rawValue: Swift.UInt8 {
+    get
+  }
+}
+public struct Frame {
+}
+public enum FrameEvent {
+  case frame(REIOSSDK.Frame)
+  case error(Swift.Error)
+}
+public protocol FramerEventClient : AnyObject {
+  func frameProcessed(event: REIOSSDK.FrameEvent)
+}
+public protocol Framer {
+  func add(data: Foundation.Data)
+  func register(delegate: REIOSSDK.FramerEventClient)
+  func createWriteFrame(opcode: REIOSSDK.FrameOpCode, payload: Foundation.Data, isCompressed: Swift.Bool) -> Foundation.Data
+  func updateCompression(supports: Swift.Bool)
+  func supportsCompression() -> Swift.Bool
+}
+public class WSFramer : REIOSSDK.Framer {
+  public var compressionEnabled: Swift.Bool
+  public init(isServer: Swift.Bool = false)
+  public func updateCompression(supports: Swift.Bool)
+  public func supportsCompression() -> Swift.Bool
+  public func add(data: Foundation.Data)
+  public func register(delegate: REIOSSDK.FramerEventClient)
+  public func createWriteFrame(opcode: REIOSSDK.FrameOpCode, payload: Foundation.Data, isCompressed: Swift.Bool) -> Foundation.Data
+  @objc deinit
+}
+public protocol MyWSArrayType {
+}
+extension UInt8 : REIOSSDK.MyWSArrayType {
+}
+extension Array where Element : REIOSSDK.MyWSArrayType, Element : Swift.UnsignedInteger {
+  public func readUint16(offset: Swift.Int) -> Swift.UInt16
+  public func readUint64(offset: Swift.Int) -> Swift.UInt64
+  public func unmaskData(maskStart: Swift.Int, offset: Swift.Int, length: Swift.Int) -> Foundation.Data
+}
+public func writeUint16(_ buffer: inout [Swift.UInt8], offset: Swift.Int, value: Swift.UInt16)
+public func writeUint32(_ buffer: inout [Swift.UInt8], offset: Swift.Int, value: Swift.UInt32)
+public func writeUint64(_ buffer: inout [Swift.UInt8], offset: Swift.Int, value: Swift.UInt64)
+public enum SocketIOVersion : Swift.Int {
+  case two
+  case three
+  public typealias RawValue = Swift.Int
+  public var rawValue: Swift.Int {
+    get
+  }
+  public init?(rawValue: Swift.Int)
+}
+public enum SocketIOClientOption {
+  case compress
+  case connectParams([Swift.String : Any])
+  case cookies([Foundation.HTTPCookie])
+  case extraHeaders([Swift.String : Swift.String])
+  case forceNew(Swift.Bool)
+  case forcePolling(Swift.Bool)
+  case forceWebsockets(Swift.Bool)
+  case enableSOCKSProxy(Swift.Bool)
+  case handleQueue(Dispatch.DispatchQueue)
+  case log(Swift.Bool)
+  case logger(REIOSSDK.SocketLogger)
+  case path(Swift.String)
+  case reconnects(Swift.Bool)
+  case reconnectAttempts(Swift.Int)
+  case reconnectWait(Swift.Int)
+  case reconnectWaitMax(Swift.Int)
+  case randomizationFactor(Swift.Double)
+  case secure(Swift.Bool)
+  case security(REIOSSDK.CertificatePinning)
+  case selfSigned(Swift.Bool)
+  case sessionDelegate(Foundation.URLSessionDelegate)
+  case version(REIOSSDK.SocketIOVersion)
+  public var description: Swift.String {
+    get
+  }
+  public static func == (lhs: REIOSSDK.SocketIOClientOption, rhs: REIOSSDK.SocketIOClientOption) -> Swift.Bool
+}
+@objc @_hasMissingDesignatedInitializers final public class SocketRawView : ObjectiveC.NSObject {
+  final public func emit(_ event: Swift.String, _ items: REIOSSDK.SocketData...)
+  @objc final public func emit(_ event: Swift.String, with items: [Any])
+  final public func emitWithAck(_ event: Swift.String, _ items: REIOSSDK.SocketData...) -> REIOSSDK.OnAckCallback
+  @objc final public func emitWithAck(_ event: Swift.String, with items: [Any]) -> REIOSSDK.OnAckCallback
+  @objc override dynamic public init()
+  @objc deinit
+}
+@objc @_hasMissingDesignatedInitializers final public class SocketRawAckView : ObjectiveC.NSObject {
+  final public func with(_ items: REIOSSDK.SocketData...)
+  @objc final public func with(_ items: [Any])
+  @objc override dynamic public init()
+  @objc deinit
+}
+public typealias SHDict = ([Swift.String : Any]) -> (Swift.Void)
+public typealias FHStr = (Swift.String) -> (Swift.Void)
+@objc @_inheritsConvenienceInitializers public class Deeplinking : ObjectiveC.NSObject {
+  @objc deinit
+  @objc override dynamic public init()
+}
+@objc public enum SocketEnginePacketType : Swift.Int {
+  case open
+  case close
+  case ping
+  case pong
+  case message
+  case upgrade
+  case noop
+  public typealias RawValue = Swift.Int
+  public var rawValue: Swift.Int {
+    get
+  }
+  public init?(rawValue: Swift.Int)
+}
+public protocol SocketData {
+  func socketRepresentation() throws -> REIOSSDK.SocketData
+}
+extension SocketData {
+  public func socketRepresentation() -> REIOSSDK.SocketData
+}
+extension Array : REIOSSDK.SocketData {
+}
+extension Bool : REIOSSDK.SocketData {
+}
+extension Dictionary : REIOSSDK.SocketData {
+}
+extension Double : REIOSSDK.SocketData {
+}
+extension Int : REIOSSDK.SocketData {
+}
+extension NSArray : REIOSSDK.SocketData {
+}
+extension Data : REIOSSDK.SocketData {
+}
+extension NSData : REIOSSDK.SocketData {
+}
+extension NSDictionary : REIOSSDK.SocketData {
+}
+extension NSString : REIOSSDK.SocketData {
+}
+extension NSNull : REIOSSDK.SocketData {
+}
+extension String : REIOSSDK.SocketData {
+}
+public typealias AckCallback = ([Any]) -> ()
+public typealias NormalCallback = ([Any], REIOSSDK.SocketAckEmitter) -> ()
+public typealias Post = (msg: Swift.String, completion: (() -> ())?)
+extension Data {
+}
+extension REiosHandler {
+  @objc dynamic public class func setScreenName(_ name: Swift.String)
+  @objc dynamic public class func setScreenName(screenName: Swift.String)
+}
+public protocol SocketIOClientSpec : AnyObject {
+  var anyHandler: ((REIOSSDK.SocketAnyEvent) -> ())? { get }
+  var handlers: [REIOSSDK.SocketEventHandler] { get }
+  var manager: REIOSSDK.SocketManagerSpec? { get }
+  var nsp: Swift.String { get }
+  var rawEmitView: REIOSSDK.SocketRawView { get }
+  var sid: Swift.String? { get }
+  var status: REIOSSDK.SocketIOStatus { get }
+  func connect(withPayload payload: [Swift.String : Any]?)
+  func connect(withPayload payload: [Swift.String : Any]?, timeoutAfter: Swift.Double, withHandler handler: (() -> ())?)
+  func didConnect(toNamespace namespace: Swift.String, payload: [Swift.String : Any]?)
+  func didDisconnect(reason: Swift.String)
+  func didError(reason: Swift.String)
+  func disconnect()
+  func emit(_ event: Swift.String, _ items: REIOSSDK.SocketData..., completion: (() -> ())?)
+  func emit(_ event: Swift.String, with items: [REIOSSDK.SocketData], completion: (() -> ())?)
+  func emitAck(_ ack: Swift.Int, with items: [Any])
+  func emitWithAck(_ event: Swift.String, _ items: REIOSSDK.SocketData...) -> REIOSSDK.OnAckCallback
+  func emitWithAck(_ event: Swift.String, with items: [REIOSSDK.SocketData]) -> REIOSSDK.OnAckCallback
+  func handleAck(_ ack: Swift.Int, data: [Any])
+  func handleClientEvent(_ event: REIOSSDK.SocketClientEvent, data: [Any])
+  func handleEvent(_ event: Swift.String, data: [Any], isInternalMessage: Swift.Bool, withAck ack: Swift.Int)
+  func handlePacket(_ packet: REIOSSDK.SocketPacket)
+  func leaveNamespace()
+  func joinNamespace(withPayload payload: [Swift.String : Any]?)
+  func off(clientEvent event: REIOSSDK.SocketClientEvent)
+  func off(_ event: Swift.String)
+  func off(id: Foundation.UUID)
+  func on(_ event: Swift.String, callback: @escaping REIOSSDK.NormalCallback) -> Foundation.UUID
+  func on(clientEvent event: REIOSSDK.SocketClientEvent, callback: @escaping REIOSSDK.NormalCallback) -> Foundation.UUID
+  func once(clientEvent event: REIOSSDK.SocketClientEvent, callback: @escaping REIOSSDK.NormalCallback) -> Foundation.UUID
+  func once(_ event: Swift.String, callback: @escaping REIOSSDK.NormalCallback) -> Foundation.UUID
+  func onAny(_ handler: @escaping (REIOSSDK.SocketAnyEvent) -> ())
+  func removeAllHandlers()
+  func setReconnecting(reason: Swift.String)
+}
+extension SocketIOClientSpec {
+  public func didError(reason: Swift.String)
+}
+public enum SocketClientEvent : Swift.String {
+  case connect
+  case disconnect
+  case error
+  case ping
+  case pong
+  case reconnect
+  case reconnectAttempt
+  case statusChange
+  case websocketUpgrade
+  public typealias RawValue = Swift.String
+  public var rawValue: Swift.String {
+    get
+  }
+  public init?(rawValue: Swift.String)
+}
+extension NotificationHandler {
+  public class func deleteNotificationListWith(dict: [Swift.String : Any])
+  public class func deleteNotificationByCampaignId(campaignId: Swift.String)
+  public class func deleteNotificationByNotificationId(notificationId: Swift.String)
+}
+extension NotificationHandler {
+  public class func checkCampaginisExistorNot(campaginId: Swift.String, database: REIOSSDK.TableName, successHandler: @escaping (CoreData.NSManagedObject?) -> ())
+  public class func checkNotificationIdExistorNot(notificationId: Swift.String, successHandler: @escaping (CoreData.NSManagedObject?) -> ())
+}
+extension REiosHandler {
+  @objc dynamic public class func initWithApi(apiKey: Swift.String, registerNotificationCategory category: Swift.Set<UserNotifications.UNNotificationCategory>?)
+}
+extension REiosHandler {
+  @objc dynamic public class func initSdk(withAppId id: Swift.String, notificationCategory category: Swift.Set<UserNotifications.UNNotificationCategory>, success: @escaping (Swift.Int) -> (), failure: @escaping (Swift.String) -> ())
+}
+extension String {
+  public func validateAppId() -> Swift.Bool
+  public func getStrValueFromUserDefaults() -> Swift.String
+  public func setStrValueToUserDefaults(value: Swift.String)
+  public func getBoolValueFromUserDefaults() -> Swift.Bool
+  public func setBoolValueToUserDefaults(value: Swift.Bool)
+  public func getAnyValueFromUserDefaults() -> Any
+  public func setAnyValueToUserDefaults(value: Any)
+  public func getIntValueFromUserDefaults() -> Swift.Int
+  public func setIntValueToUserDefaults(value: Swift.Int)
+}
+public enum TCPTransportError : Swift.Error {
+  case invalidRequest
+  public static func == (a: REIOSSDK.TCPTransportError, b: REIOSSDK.TCPTransportError) -> Swift.Bool
+  public var hashValue: Swift.Int {
+    get
+  }
+  public func hash(into hasher: inout Swift.Hasher)
+}
+@available(OSX 10.14, iOS 12.0, watchOS 5.0, tvOS 12.0, *)
+public class TCPTransport : REIOSSDK.Transport {
+  public var usingTLS: Swift.Bool {
+    get
+  }
+  public init(connection: Network.NWConnection)
+  public init()
+  public func connect(url: Foundation.URL, timeout: Swift.Double = 10, certificatePinning: REIOSSDK.CertificatePinning? = nil)
+  public func disconnect()
+  public func register(delegate: REIOSSDK.TransportEventClient)
+  public func write(data: Foundation.Data, completion: @escaping ((Swift.Error?) -> ()))
+  @objc deinit
+}
+extension REiosHandler {
+  @objc dynamic public class func updatePushToken(token: Swift.String)
+}
+public enum HTTPUpgradeError : Swift.Error {
+  case notAnUpgrade(Swift.Int)
+  case invalidData
+}
+public struct HTTPWSHeader {
+  public static func createUpgrade(request: Foundation.URLRequest, supportsCompression: Swift.Bool, secKeyValue: Swift.String) -> Foundation.URLRequest
+  public static func generateWebSocketKey() -> Swift.String
+}
+public enum HTTPEvent {
+  case success([Swift.String : Swift.String])
+  case failure(Swift.Error)
+}
+public protocol HTTPHandlerDelegate : AnyObject {
+  func didReceiveHTTP(event: REIOSSDK.HTTPEvent)
+}
+public protocol HTTPHandler {
+  func register(delegate: REIOSSDK.HTTPHandlerDelegate)
+  func convert(request: Foundation.URLRequest) -> Foundation.Data
+  func parse(data: Foundation.Data) -> Swift.Int
+}
+public protocol HTTPServerDelegate : AnyObject {
+  func didReceive(event: REIOSSDK.HTTPEvent)
+}
+public protocol HTTPServerHandler {
+  func register(delegate: REIOSSDK.HTTPServerDelegate)
+  func parse(data: Foundation.Data)
+  func createResponse(headers: [Swift.String : Swift.String]) -> Foundation.Data
+}
+public struct URLParts {
+}
+extension URL {
+  public var isTLSScheme: Swift.Bool {
+    get
+  }
+  public func getParts() -> REIOSSDK.URLParts?
+}
+public protocol SocketEnginePollable : REIOSSDK.SocketEngineSpec {
+  var invalidated: Swift.Bool { get }
+  var postWait: [REIOSSDK.Post] { get set }
+  var session: Foundation.URLSession? { get }
+  var waitingForPoll: Swift.Bool { get set }
+  var waitingForPost: Swift.Bool { get set }
+  func doPoll()
+  func sendPollMessage(_ message: Swift.String, withType type: REIOSSDK.SocketEnginePacketType, withData datas: [Foundation.Data], completion: (() -> ())?)
+  func stopPolling()
+}
+extension SocketEnginePollable {
+  public func doPoll()
+  public func sendPollMessage(_ message: Swift.String, withType type: REIOSSDK.SocketEnginePacketType, withData datas: [Foundation.Data], completion: (() -> ())? = nil)
+  public func stopPolling()
+}
+extension REIOSSDK.FoundationTransportError : Swift.Equatable {}
+extension REIOSSDK.FoundationTransportError : Swift.Hashable {}
+extension REIOSSDK.CarouselDirection : Swift.Equatable {}
+extension REIOSSDK.CarouselDirection : Swift.Hashable {}
+extension REIOSSDK.CarouselType : Swift.Equatable {}
+extension REIOSSDK.CarouselType : Swift.Hashable {}
+extension REIOSSDK.CarouselPagingType : Swift.Equatable {}
+extension REIOSSDK.CarouselPagingType : Swift.Hashable {}
+extension REIOSSDK.RSBaseUrl : Swift.Equatable {}
+extension REIOSSDK.RSBaseUrl : Swift.Hashable {}
+extension REIOSSDK.RSBaseUrl : Swift.RawRepresentable {}
+extension REIOSSDK.SocketAckStatus : Swift.Equatable {}
+extension REIOSSDK.SocketAckStatus : Swift.Hashable {}
+extension REIOSSDK.SocketAckStatus : Swift.RawRepresentable {}
+extension REIOSSDK.SocketIOStatus : Swift.Equatable {}
+extension REIOSSDK.SocketIOStatus : Swift.Hashable {}
+extension REIOSSDK.SocketIOStatus : Swift.RawRepresentable {}
+extension REIOSSDK.SecurityErrorCode : Swift.Equatable {}
+extension REIOSSDK.SecurityErrorCode : Swift.Hashable {}
+extension REIOSSDK.SecurityErrorCode : Swift.RawRepresentable {}
+extension REIOSSDK.SocketParsableError : Swift.Equatable {}
+extension REIOSSDK.SocketParsableError : Swift.Hashable {}
+extension REIOSSDK.NetworkReachabilityManager.ConnectionType : Swift.Equatable {}
+extension REIOSSDK.NetworkReachabilityManager.ConnectionType : Swift.Hashable {}
+extension REIOSSDK.ErrorType : Swift.Equatable {}
+extension REIOSSDK.ErrorType : Swift.Hashable {}
+extension REIOSSDK.SocketPacket.PacketType : Swift.Equatable {}
+extension REIOSSDK.SocketPacket.PacketType : Swift.Hashable {}
+extension REIOSSDK.SocketPacket.PacketType : Swift.RawRepresentable {}
+extension REIOSSDK.FoundationSecurityError : Swift.Equatable {}
+extension REIOSSDK.FoundationSecurityError : Swift.Hashable {}
+extension REIOSSDK.TableName : Swift.Equatable {}
+extension REIOSSDK.TableName : Swift.Hashable {}
+extension REIOSSDK.TableName : Swift.RawRepresentable {}
+extension REIOSSDK.Model1 : Swift.Equatable {}
+extension REIOSSDK.Model1 : Swift.Hashable {}
+extension REIOSSDK.Model1 : Swift.RawRepresentable {}
+extension REIOSSDK.CloseCode : Swift.Equatable {}
+extension REIOSSDK.CloseCode : Swift.Hashable {}
+extension REIOSSDK.CloseCode : Swift.RawRepresentable {}
+extension REIOSSDK.FrameOpCode : Swift.Equatable {}
+extension REIOSSDK.FrameOpCode : Swift.Hashable {}
+extension REIOSSDK.FrameOpCode : Swift.RawRepresentable {}
+extension REIOSSDK.SocketIOVersion : Swift.Equatable {}
+extension REIOSSDK.SocketIOVersion : Swift.Hashable {}
+extension REIOSSDK.SocketIOVersion : Swift.RawRepresentable {}
+extension REIOSSDK.SocketIOClientOption : Swift.Equatable {}
+extension REIOSSDK.SocketIOClientOption : Swift.CustomStringConvertible {}
+extension REIOSSDK.SocketEnginePacketType : Swift.Equatable {}
+extension REIOSSDK.SocketEnginePacketType : Swift.Hashable {}
+extension REIOSSDK.SocketEnginePacketType : Swift.RawRepresentable {}
+extension REIOSSDK.SocketClientEvent : Swift.Equatable {}
+extension REIOSSDK.SocketClientEvent : Swift.Hashable {}
+extension REIOSSDK.SocketClientEvent : Swift.RawRepresentable {}
+extension REIOSSDK.TCPTransportError : Swift.Equatable {}
+extension REIOSSDK.TCPTransportError : Swift.Hashable {}
